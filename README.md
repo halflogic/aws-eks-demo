@@ -2,6 +2,8 @@
 
 This is a sample EKS Cluster created using CloudFormation. CFN templates are also used to create the VPC with Public and Private Subnets.
 
+NOTE: EKS Cluster and NAT GW are charged per hour. To avoid charges in your AWS account, remember to delete the stacks you created once you are done.
+
 <img src="eks-2az-diagram.png" width="700" height="">
 
 ## Create VPC for EKS Cluster
@@ -55,7 +57,7 @@ CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 4. Configure stack options: leave defaults and continue
 5. Review and create stack
 
-<img src="eks-demo-cluster.png" width="500" height="">
+<img src="eks-demo-cluster-info.png" width="600" height="">
 
 ## Create EKS Worker Nodes
 
