@@ -1,0 +1,16 @@
+Resources:
+  myCluster:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: eks-demo
+      Version: '1.16'
+      RoleArn: arn:aws:iam::683981943649:role/eksServiceRole
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - sg-0de731352aac91fa8
+        SubnetIds:
+          - subnet-038f833c7fcb826b2
+          - subnet-07e983a592e33d5b8
+          - subnet-08b347f4cb5083731
+          - subnet-0de7b557f24bf5d06
+          
