@@ -6,6 +6,7 @@ NOTE: EKS Cluster and NAT GW are charged per hour. To avoid charges in your AWS 
 
 <img src="eks-2az-diagram.png" width="700" height="">
 
+
 ## Create VPC for EKS Cluster
 
 Create VPC using CloudFormation\
@@ -16,9 +17,9 @@ https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-e
 
 You may use the CloudFormation template above as a guide and modify according to your requirements.
 
-For this example, I have used the following CIDR and Subnets:
+For this example, I have modified the VPC CIDR and Subnets:
 
-CIDR: 172.29.0.0/16\
+VPC CIDR: 172.29.0.0/16\
 Public Subnets: 172.29.1.0/24, 172.29.2.0/24\
 Private Subnets: 172.29.3.0/24, 172.29.4.0/24
 
@@ -59,5 +60,9 @@ CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 
 <img src="eks-demo-cluster-info.png" width="600" height="">
 
+
 ## Create EKS Worker Nodes
 
+
+
+## Clean Up
