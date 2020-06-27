@@ -1,5 +1,7 @@
 # AWS EKS Demo
 
+This is a sample EKS Cluster created using CloudFormation. CFN templates are also used to create the VPC with Public and Private Subnets.
+
 <img src="eks-2az-diagram.png" width="700" height="">
 
 ## Create VPC for EKS Cluster
@@ -14,11 +16,11 @@ You may use the CloudFormation template above as a guide and modify according to
 
 For this example, I have used the following CIDR and Subnets:
 
-CIDR: 172.29.0.0/16
-Public Subnets: 172.29.1.0/24, 172.29.2.0/24
+CIDR: 172.29.0.0/16\
+Public Subnets: 172.29.1.0/24, 172.29.2.0/24\
 Private Subnets: 172.29.3.0/24, 172.29.4.0/24
 
-CFN Template: cfn-vpc-pub-pri.yaml
+CFN Template: [cfn-vpc-pub-pri.yaml](cfn-vpc-pub-pri.yaml)
 
 1. Go to CloudFormation and Create stack
 2. Upload template and continue
@@ -45,7 +47,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
 Create EKS Cluster using CloudFormation\
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-cluster.html
 
-CFN Template: cfn-eks-cluster.yaml
+CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 
 1. Go to CloudFormation and Create stack
 2. Upload template and continue
