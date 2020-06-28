@@ -17,7 +17,7 @@ https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-e
 
 You may use the CloudFormation template above as a guide and modify according to your requirements.
 
-For this example, I have modified the VPC CIDR and Subnets:
+For this demo, the VPC CIDR and Subnets were modified to use the following:
 
 VPC CIDR: 172.29.0.0/16\
 Public Subnets: 172.29.1.0/24, 172.29.2.0/24\
