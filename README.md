@@ -178,4 +178,4 @@ Delete each of the stack you have created in the following order:
 2. eks-cluster
 3. eks-demo-vpc
 
-
+Delete the bastion host ec2 instance.
