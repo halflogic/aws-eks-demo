@@ -37,11 +37,11 @@ Your stack will have a status of "CREATE_COMPLETE" after all resources have been
 
 Review the stack by clicking on the Resources and Ouputs tabs.
 
-<img src="images/eks-demo-vpc-resources.png" width="600" height="">
+<img src="images/eks-demo-vpc-resources.png" width="700" height="">
 
 You will need the SecurityGroupId and SubnetIds to create the EKS Cluster.
 
-<img src="images/eks-demo-vpc-outputs.png" width="600" height="">
+<img src="images/eks-demo-vpc-outputs.png" width="700" height="">
 
 
 ## Create EKS Cluster
@@ -70,7 +70,7 @@ CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 
 Cluster status will show "Active" once provisioned. Then you may proceed creating the worker nodes.
 
-<img src="images/eks-demo-cluster-info.png" width="600" height="">
+<img src="images/eks-demo-cluster-info.png" width="700" height="">
 
 
 ## Create EKS Worker Nodes
@@ -94,7 +94,7 @@ CFN Template: [cfn-eks-worker-nodes.yaml](cfn-eks-worker-nodes.yaml)
 
 Review the Outputs tab and take note of the NodeInstanceRole, this will be needed to allow the worker nodes to join the cluster.
 
-<img src="images/eks-worker-nodes.png" width="600" height="">
+<img src="images/eks-worker-nodes.png" width="700" height="">
 
 ## Join Worker Nodes to the EKS Cluster
 
@@ -174,5 +174,5 @@ Delete each of the stack you have created in the following order:
 2. eks-cluster
 3. eks-demo-vpc
 
-<img src="images/cfn-stacks.png" width="600" height="">
+<img src="images/cfn-stacks.png" width="700" height="">
 
