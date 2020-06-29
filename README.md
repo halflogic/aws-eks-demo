@@ -168,11 +168,14 @@ kube-system   kube-proxy-wdgjw           1/1     Running   0          46m
 
 ## Cleanup
 
+Open CloudFormation > Stacks:
+
+<img src="images/cfn-stacks.png" width="700" height="">
+
 Delete each of the stack you have created in the following order:
 
 1. eks-worker-nodes 
 2. eks-cluster
 3. eks-demo-vpc
 
-<img src="images/cfn-stacks.png" width="700" height="">
 
