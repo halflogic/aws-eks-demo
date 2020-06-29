@@ -1,8 +1,8 @@
 # AWS EKS Demo
 
-This demo will be using CoudFormation (CFN) templates to create the EKS Cluster, Worker Nodes, VPC, Subnets and other network resources needed by the EKS Cluster.
+This demo will be using CoudFormation (CFN) templates to create the EKS Cluster, Worker Nodes, VPC, Subnets and other network resources.
 
-NOTE: EKS Cluster and NAT Gateway are charged per hour after being provisioned. To avoid unexpected charges in your AWS account, remember to delete the stacks you created once you are done.
+NOTE: EKS Cluster and NAT Gateways are charged per hour after being provisioned. To avoid unexpected charges in your AWS account, remember to delete the stacks you created once you are done.
 
 <img src="images/eks-2az-diagram.png" width="700" height="">
 
@@ -27,8 +27,8 @@ Other network resources such as Internet GW, NAT GW, Route Tables and SecurityGr
 
 CFN Template: [cfn-vpc-pub-pri.yaml](cfn-vpc-pub-pri.yaml)
 
-1. Go to CloudFormation and Create stack
-2. Upload template and continue
+1. Open CloudFormation and Create stack
+2. Choose template to upload and continue
 3. Enter Stack name: eks-demo-vpc 
 4. Configure stack options: leave defaults and continue
 5. Review and create stack
@@ -52,13 +52,19 @@ https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
 Create EKS Cluster using CloudFormation\
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-cluster.html
 
+Some requirements that you may create in advance:\
+- IAM Service Role
+- Key Pair for the Worker Nodes
+
 CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 
-1. Go to CloudFormation and Create stack
-2. Upload template and continue
+1. Open CloudFormation and Create stack
+2. Choose template to upload and continue
 3. Enter Stack name: eks-cluster
 4. Configure stack options: leave defaults and continue
 5. Review and create stack
+
+Cluster status will show "Active" once provisioned. Then you may proceed creating the worker nodes.
 
 <img src="images/eks-demo-cluster-info.png" width="600" height="">
 
@@ -71,12 +77,98 @@ https://docs.aws.amazon.com/eks/latest/userguide/worker.html
 Launching Amazon EKS Linux worker nodes (self-managed)\
 https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html#self-managed-nodes
 
+You may use this CloudFormation template as a guide and modify according to your requirements:\
+https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup.yaml
+
 CFN Template: [cfn-eks-worker-nodes.yaml](cfn-eks-worker-nodes.yaml)
 
-1. Go to CloudFormation and Create stack
-2. Upload template and continue
-3. Enter Stack name: eks-demo-worker-nodes
+1. Open CloudFormation and Create stack
+2. Choose template to upload and continue
+3. Enter Stack name: eks-worker-nodes
 4. Configure stack options: leave defaults and continue
 5. Review and create stack
 
-## Clean Up
+Review the Outputs tab and take note of the NodeInstanceRole, this will be needed to allow the worker nodes to join the cluster.
+
+<img src="images/eks-worker-nodes.png" width="600" height="">
+
+## Join Worker Nodes to the EKS Cluster
+
+Launch a bastion host following security best practices. Install the necessary tools and configure access to the cluster.
+
+- Install AWS CLI version 2:\
+  https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+  
+  ```
+  sudo yum update -y
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  sudo ./aws/install
+  aws --version
+  # Run "aws configure" with your credentials
+  aws sts get-caller-identity
+  ```
+
+- Install kubectl:\
+  https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+
+  ```
+  curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+  chmod +x ./kubectl
+  mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+  echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+  kubectl version --short --client
+  ```
+
+- Create kubeconfig:\
+  https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
+  
+  ```
+  aws eks --region us-east-1 update-kubeconfig --name eks-demo
+  # By default, kubeconfig will be created in ~/.kube/config
+  kubectl get svc
+  ```
+
+- Add user role:\
+  https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html
+  
+  ```
+  curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/aws-auth-cm.yaml
+  vi aws-auth-cm.yaml # modify rolearn using the NodeInstanceRole from the previous section.
+  kubectl apply -f aws-auth-cm.yaml
+  kubectl describe configmap -n kube-system aws-auth
+  ```
+
+At this point you should be able to run kubectl commands in your cluster.
+```
+[ec2-user@ip-172-29-1-176 .kube]$ kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   163m
+
+[ec2-user@ip-172-29-1-176 .kube]$ kubectl get nodes
+NAME                           STATUS   ROLES    AGE   VERSION
+ip-172-29-3-40.ec2.internal    Ready    <none>   46m   v1.16.8-eks-e16311
+ip-172-29-4-218.ec2.internal   Ready    <none>   46m   v1.16.8-eks-e16311
+
+[ec2-user@ip-172-29-1-176 .kube]$ kubectl get pods --all-namespaces
+NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+kube-system   aws-node-29rht             1/1     Running   0          46m
+kube-system   aws-node-lt7qd             1/1     Running   0          46m
+kube-system   coredns-55c5fcd78f-t9rdl   1/1     Running   0          164m
+kube-system   coredns-55c5fcd78f-txlxr   1/1     Running   0          164m
+kube-system   kube-proxy-nfthl           1/1     Running   0          46m
+kube-system   kube-proxy-wdgjw           1/1     Running   0          46m
+```
+
+**Congratulations! You now have a working Kubernetes cluster and start deploying applications.**
+
+## Cleanup
+
+Delete each of the stack you have created in the following order:
+
+1. eks-worker-nodes 
+2. eks-cluster
+3. eks-demo-vpc
+
+<img src="images/cfn-stacks.png" width="600" height="">
+
