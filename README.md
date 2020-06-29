@@ -52,9 +52,13 @@ https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html
 Create EKS Cluster using CloudFormation\
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-cluster.html
 
-Some requirements that you may create in advance:\
-- IAM Service Role
-- Key Pair for the Worker Nodes
+Some requirements that you may need to create in advance:
+- EKS cluster IAM role\
+  (Role Name: eksServiceRole)\
+  https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html
+- Key Pair for the Worker Nodes\
+ (Key Name: eks-node)\
+  https://docs.aws.amazon.com/servicecatalog/latest/adminguide/getstarted-keypair.html
 
 CFN Template: [cfn-eks-cluster.yaml](cfn-eks-cluster.yaml)
 
