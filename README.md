@@ -2,10 +2,21 @@
 
 This demo will be using CoudFormation (CFN) templates to create the EKS Cluster, Worker Nodes, VPC, Subnets and other network resources.
 
-NOTE: EKS Cluster and NAT Gateways are charged per hour after being provisioned. To avoid unexpected charges in your AWS account, remember to delete the stacks you created once you are done.
+**NOTE:** EKS Cluster and NAT Gateways are charged per hour after being provisioned. To avoid unexpected charges in your AWS account, remember to delete the stacks you created once you are done.
 
 <img src="images/eks-2az-diagram.png" width="700" height="">
 
+Estimated cost for EKS Cluster, 2 NAT Gateways and 2 Worker nodes (t3.micro):\
+*(Excluding EBS volume and data transfer costs)*
+
+Provisioned Cost | Per Hour 
+-----------------|----------
+EKS Cluster | $0.10 
+NAT Gateway | $0.045 x 2 
+Worker Node (t3.micro) | $0.0104 x 2 
+**Total (estimate)** | **$0.21** 
+
+---
 
 ## Create VPC for EKS Cluster
 
@@ -179,3 +190,7 @@ Delete each of the stack you have created in the following order:
 3. eks-demo-vpc
 
 Delete the bastion host ec2 instance.
+
+---
+
+
