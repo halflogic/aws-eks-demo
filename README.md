@@ -208,5 +208,5 @@ Delete the bastion host ec2 instance.
   https://aws.amazon.com/blogs/containers/multi-tenant-design-considerations-for-amazon-eks-clusters/ 
 
 - Subnet Sizing/Optimization\
-  https://docs.aws.amazon.com/eks/latest/userguide/eks-networking.html\
+  https://docs.aws.amazon.com/eks/latest/userguide/eks-networking.html \
   https://medium.com/@savvythrough/aws-eks-subnet-ip-optimization-67b7ac83124e
